@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyMate - Smart Travel Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="data:application/json,{\"name\":\"SkyMate\",\"short_name\":\"SkyMate\",\"display\":\"standalone\",\"theme_color\":\"#218089\"}">
+</head>
+<body>
+    <!-- Welcome/Onboarding Screen -->
+    <div id="welcome-screen" class="screen active">
+        <div class="welcome-container">
+            <div class="welcome-header">
+                <h1 class="app-logo">✈️ SkyMate</h1>
+                <p class="welcome-tagline">Your smart travel companion</p>
+            </div>
+            
+            <div class="welcome-features">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Real-time Updates</h3>
+                    <p>Get instant flight status, gate changes, and delays</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>Airport Navigation</h3>
+                    <p>Find your way to gates, amenities, and services</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <h3>Smart Queuing</h3>
+                    <p>Skip lines with virtual queue management</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🧳</div>
+                    <h3>Baggage Service</h3>
+                    <p>Door-to-door baggage pickup and delivery</p>
+                </div>
+            </div>
+            
+            <button class="btn btn--primary btn--lg btn--full-width" onclick="showDashboard()">
+                Get Started
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="screen">
+        <header class="app-header">
+            <h1 class="header-title">SkyMate</h1>
+            <div class="header-user">
+                <span class="user-name">Hi, Priya</span>
+                <button class="notification-btn" onclick="showNotifications()">
+                    <span class="notification-icon">🔔</span>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="flight-card" onclick="showFlightDetails()">
+                <div class="flight-status">
+                    <div class="status status--success">On Time</div>
+                    <div class="flight-number">6E203</div>
+                </div>
+                
+                <div class="flight-route">
+                    <div class="route-segment">
+                        <div class="airport-code">BLR</div>
+                        <div class="city-name">Bangalore</div>
+                        <div class="flight-time">5:40 PM</div>
+                    </div>
+                    
+                    <div class="route-arrow">→</div>
+                    
+                    <div class="route-segment">
+                        <div class="airport-code">BOM</div>
+                        <div class="city-name">Mumbai</div>
+                        <div class="flight-time">7:30 PM</div>
+                    </div>
+                </div>
+                
+                <div class="flight-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Gate</span>
+                        <span class="detail-value">A17</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Boarding</span>
+                        <span class="detail-value">5:10 PM</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Terminal</span>
+                        <span class="detail-value">Terminal 1</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h2 class="section-title">Quick Actions</h2>
+                <div class="action-grid">
+                    <button class="action-card" onclick="showTerminalMap()">
+                        <div class="action-icon">🗺️</div>
+                        <div class="action-title">Terminal Map</div>
+                        <div class="action-subtitle">Navigate to gate</div>
+                    </button>
+                    
+                    <button class="action-card" onclick="showVirtualQueue()">
+                        <div class="action-icon">⏱️</div>
+                        <div class="action-title">Virtual Queue</div>
+                        <div class="action-subtitle">Skip security lines</div>
+                    </button>
+                    
+                    <button class="action-card" onclick="showAmenityFinder()">
+                        <div class="action-icon">🍕</div>
+                        <div class="action-title">Find Amenities</div>
+                        <div class="action-subtitle">Food & services</div>
+                    </button>
+                    
+                    <button class="action-card" onclick="showBaggageService()">
+                        <div class="action-icon">🧳</div>
+                        <div class="action-title">Baggage Service</div>
+                        <div class="action-subtitle">Track delivery</div>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="showDashboard()">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="showTerminalMap()">
+                <span class="nav-icon">🗺️</span>
+                <span class="nav-label">Map</span>
+            </button>
+            <button class="nav-item" onclick="showAssistant()">
+                <span class="nav-icon">💬</span>
+                <span class="nav-label">Assistant</span>
+            </button>
+            <button class="nav-item" onclick="showSettings()">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">Settings</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Flight Details Screen -->
+    <div id="flight-details" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="showDashboard()">← Back</button>
+            <h1>Flight Details</h1>
+        </header>
+
+        <div class="flight-timeline">
+            <div class="timeline-item completed">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Check-in Complete</h3>
+                    <p>Seat: 14A • Window</p>
+                    <span class="timeline-time">2:30 PM</span>
+                </div>
+            </div>
+            
+            <div class="timeline-item current">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Security Screening</h3>
+                    <p>Current wait: 10-12 mins</p>
+                    <span class="timeline-time">Now</span>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Boarding Starts</h3>
+                    <p>Gate A17 • Terminal 1</p>
+                    <span class="timeline-time">5:10 PM</span>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Departure</h3>
+                    <p>On time</p>
+                    <span class="timeline-time">5:40 PM</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="flight-actions">
+            <button class="btn btn--primary btn--full-width" onclick="showTerminalMap()">
+                Get Directions to Gate
+            </button>
+            <button class="btn btn--outline btn--full-width" onclick="showVirtualQueue()">
+                Book Security Slot
+            </button>
+        </div>
+    </div>
+
+    <!-- Terminal Map Screen -->
+    <div id="terminal-map" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="showDashboard()">← Back</button>
+            <h1>Terminal Map</h1>
+        </header>
+
+        <div class="map-container">
+            <div class="map-placeholder">
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <span class="legend-marker you-are-here"></span>
+                        <span>You are here</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker destination"></span>
+                        <span>Gate A17</span>
+                    </div>
+                </div>
+                
+                <div class="terminal-layout">
+                    <div class="security-area">Security</div>
+                    
+                    <div class="gate-area">
+                        <div class="gate gate-a5">A5<br><small>Chai Point</small></div>
+                        <div class="gate gate-a10">A10<br><small>Kids Area</small></div>
+                        <div class="gate gate-a15">A15<br><small>Lounge</small></div>
+                        <div class="gate gate-a17 destination">A17<br><small>Your Gate</small></div>
+                    </div>
+                    
+                    <div class="you-are-here"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="directions-panel">
+            <h3>Directions to Gate A17</h3>
+            <div class="direction-step">
+                <span class="step-number">1</span>
+                <span class="step-text">Walk straight for 150m past security</span>
+            </div>
+            <div class="direction-step">
+                <span class="step-number">2</span>
+                <span class="step-text">Turn right at the IndiGo Lounge</span>
+            </div>
+            <div class="direction-step">
+                <span class="step-number">3</span>
+                <span class="step-text">Gate A17 will be on your left</span>
+            </div>
+            <div class="estimated-time">
+                <strong>Estimated walk time: 3 minutes</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Virtual Queue Screen -->
+    <div id="virtual-queue" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="showDashboard()">← Back</button>
+            <h1>Virtual Queue</h1>
+        </header>
+
+        <div class="queue-options">
+            <div class="queue-card">
+                <h3>Security Screening</h3>
+                <div class="current-wait">
+                    <span class="wait-time">18 min</span>
+                    <span class="wait-label">Current wait</span>
+                </div>
+                
+                <div class="available-slots">
+                    <h4>Available time slots:</h4>
+                    <div class="slot-grid">
+                        <button class="slot-btn">4:00-4:15 PM</button>
+                        <button class="slot-btn recommended">4:15-4:30 PM <span class="rec-badge">Recommended</span></button>
+                        <button class="slot-btn">4:30-4:45 PM</button>
+                    </div>
+                </div>
+                
+                <button class="btn btn--primary btn--full-width" onclick="bookSecuritySlot()">
+                    Book 4:15-4:30 PM Slot
+                </button>
+            </div>
+
+            <div class="queue-card">
+                <h3>Check-in Counter</h3>
+                <div class="current-wait">
+                    <span class="wait-time">12 min</span>
+                    <span class="wait-label">Current wait</span>
+                </div>
+                
+                <div class="available-slots">
+                    <h4>Available time slots:</h4>
+                    <div class="slot-grid">
+                        <button class="slot-btn">3:30-3:45 PM</button>
+                        <button class="slot-btn recommended">3:45-4:00 PM <span class="rec-badge">Recommended</span></button>
+                    </div>
+                </div>
+                
+                <button class="btn btn--outline btn--full-width">
+                    Already Checked In ✓
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Amenity Finder Screen -->
+    <div id="amenity-finder" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="showDashboard()">← Back</button>
+            <h1>Find Amenities</h1>
+        </header>
+
+        <div class="search-container">
+            <input type="text" class="form-control search-input" placeholder="Search for food, shops, services..." />
+        </div>
+
+        <div class="amenity-categories">
+            <button class="category-btn active">All</button>
+            <button class="category-btn">Food</button>
+            <button class="category-btn">Lounge</button>
+            <button class="category-btn">Facilities</button>
+            <button class="category-btn">Kids</button>
+        </div>
+
+        <div class="amenity-list">
+            <div class="amenity-card">
+                <div class="amenity-info">
+                    <h3>IndiGo Lounge</h3>
+                    <p class="amenity-location">Gate A15 • 250m away</p>
+                    <div class="amenity-features">
+                        <span class="feature-tag">Free WiFi</span>
+                        <span class="feature-tag">Beverages</span>
+                        <span class="feature-tag">Work Space</span>
+                    </div>
+                    <p class="amenity-wait">Wait time: 5 min</p>
+                </div>
+                <div class="amenity-actions">
+                    <button class="btn btn--sm btn--primary" onclick="getDirections('A15')">Directions</button>
+                </div>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-info">
+                    <h3>Chai Point</h3>
+                    <p class="amenity-location">Gate A5 • 100m away</p>
+                    <div class="amenity-rating">
+                        <span class="rating-stars">★★★★☆</span>
+                        <span class="rating-value">4.2</span>
+                    </div>
+                    <p class="amenity-cuisine">Indian Snacks</p>
+                </div>
+                <div class="amenity-actions">
+                    <button class="btn btn--sm btn--primary" onclick="getDirections('A5')">Directions</button>
+                </div>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-info">
+                    <h3>Family Restroom</h3>
+                    <p class="amenity-location">Near Security • 40m away</p>
+                    <div class="amenity-features">
+                        <span class="feature-tag">Baby changing</span>
+                        <span class="feature-tag">Family friendly</span>
+                    </div>
+                </div>
+                <div class="amenity-actions">
+                    <button class="btn btn--sm btn--primary" onclick="getDirections('security')">Directions</button>
+                </div>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-info">
+                    <h3>Kids Play Area</h3>
+                    <p class="amenity-location">Gate A10 • 150m away</p>
+                    <div class="amenity-features">
+                        <span class="feature-tag">Safe play zone</span>
+                        <span class="feature-tag">Age 2-12</span>
+                    </div>
+                </div>
+                <div class="amenity-actions">
+                    <button class="btn btn--sm btn--primary" onclick="getDirections('A10')">Directions</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Baggage Service Screen -->
+    <div id="baggage-service" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="showDashboard()">← Back</button>
+            <h1>Baggage Service</h1>
+        </header>
+
+        <div class="service-status">
+            <div class="status-card">
+                <h3>Pickup Status</h3>
+                <div class="status status--success">Scheduled</div>
+                <div class="service-details">
+                    <div class="detail-row">
+                        <span class="detail-label">From:</span>
+                        <span class="detail-value">Koramangala, Bangalore</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Time:</span>
+                        <span class="detail-value">2:30 PM Today</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-card">
+                <h3>Delivery Status</h3>
+                <div class="status status--info">In Transit</div>
+                <div class="service-details">
+                    <div class="detail-row">
+                        <span class="detail-label">To:</span>
+                        <span class="detail-value">Taj Hotel, Mumbai</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">ETA:</span>
+                        <span class="detail-value">Within 90 mins of landing</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tracking ID:</span>
+                        <span class="detail-value">BLR12345</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="service-timeline">
+            <h3>Tracking Timeline</h3>
+            <div class="timeline-item completed">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Pickup Scheduled</h4>
+                    <p>Agent assigned for collection</p>
+                    <span class="timeline-time">Yesterday 6:00 PM</span>
+                </div>
+            </div>
+            
+            <div class="timeline-item completed">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Collected from Address</h4>
+                    <p>Baggage picked up successfully</p>
+                    <span class="timeline-time">Today 2:30 PM</span>
+                </div>
+            </div>
+            
+            <div class="timeline-item current">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>In Transit to Airport</h4>
+                    <p>En route to BLR Terminal 1</p>
+                    <span class="timeline-time">Now</span>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Delivery to Hotel</h4>
+                    <p>Will be delivered after landing</p>
+                    <span class="timeline-time">Expected</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn--outline btn--full-width">Contact Support</button>
+    </div>
+
+    <!-- Assistant Chat Screen -->
+    <div id="assistant" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="showDashboard()">← Back</button>
+            <h1>Travel Assistant</h1>
+        </header>
+
+        <div class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+                <div class="message assistant-message">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <p>Hi Priya! I'm your SkyMate assistant. How can I help you today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions-chat">
+                <button class="quick-action-btn" onclick="sendQuickMessage('Where is my gate?')">
+                    📍 Where is my gate?
+                </button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('Security wait time?')">
+                    ⏱️ Security wait time?
+                </button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('Find food near gate')">
+                    🍕 Find food near gate
+                </button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('Flight status update')">
+                    ✈️ Flight status update
+                </button>
+            </div>
+
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chat-input" placeholder="Type your message..." />
+                <button class="send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settings" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="showDashboard()">← Back</button>
+            <h1>Settings</h1>
+        </header>
+
+        <div class="settings-content">
+            <div class="settings-section">
+                <h3>Profile Information</h3>
+                <div class="profile-card">
+                    <div class="profile-info">
+                        <h4>Priya Sharma</h4>
+                        <p>Family Traveler</p>
+                        <p>Loyalty: 6E12345678</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Notification Preferences</h3>
+                <div class="setting-item">
+                    <span>Gate Changes</span>
+                    <label class="toggle">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <span>Security Updates</span>
+                    <label class="toggle">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <span>Boarding Calls</span>
+                    <label class="toggle">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <span>Promotional Offers</span>
+                    <label class="toggle">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Travel Preferences</h3>
+                <div class="preference-tags">
+                    <span class="preference-tag active">Family Amenities</span>
+                    <span class="preference-tag active">Security Updates</span>
+                    <span class="preference-tag active">Gate Notifications</span>
+                    <span class="preference-tag">Lounge Access</span>
+                    <span class="preference-tag">Dining Offers</span>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>App Information</h3>
+                <div class="app-info">
+                    <p>Version 2.1.0</p>
+                    <p>Privacy Policy | Terms of Service</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Panel -->
+    <div id="notifications-panel" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Notifications</h3>
+                <button class="close-btn" onclick="hideNotifications()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="notification-item">
+                    <div class="notification-icon info">ℹ️</div>
+                    <div class="notification-content">
+                        <p><strong>Gate changed to A17</strong></p>
+                        <p>3 mins away from your current location</p>
+                        <span class="notification-time">15 minutes ago</span>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon security">🔒</div>
+                    <div class="notification-content">
+                        <p><strong>Security wait time updated</strong></p>
+                        <p>Current wait: 10-12 mins</p>
+                        <span class="notification-time">5 minutes ago</span>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon weather">🌤️</div>
+                    <div class="notification-content">
+                        <p><strong>Weather update for Mumbai</strong></p>
+                        <p>Clear weather, 27°C</p>
+                        <span class="notification-time">1 hour ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
